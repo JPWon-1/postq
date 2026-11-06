@@ -7,8 +7,8 @@
 
 | 대상 | 러너 | 결과 |
 |---|---|---|
-| macOS arm64 | macos-14 | `postq-<버전>-darwin-arm64.tar.gz`, npm `postq-darwin-arm64` |
-| macOS x64 | macos-14(교차 빌드) | `postq-<버전>-darwin-x64.tar.gz`, npm `postq-darwin-x64` |
+| macOS arm64 | macos-latest | `postq-<버전>-darwin-arm64.tar.gz`, npm `postq-darwin-arm64` |
+| macOS x64 | macos-latest(교차 빌드) | `postq-<버전>-darwin-x64.tar.gz`, npm `postq-darwin-x64` |
 | Linux x64 (glibc 2.35+) | ubuntu-22.04 | `postq-<버전>-linux-x64.tar.gz`, npm `postq-linux-x64` |
 | Linux arm64 (glibc 2.35+) | ubuntu-22.04-arm | `postq-<버전>-linux-arm64.tar.gz`, npm `postq-linux-arm64` |
 | Windows x64 | windows-latest | `postq-<버전>-win32-x64.zip`, npm `postq-win32-x64` |
