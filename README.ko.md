@@ -80,7 +80,7 @@ Postman CLI 는 컬렉션 실행기이고, postq 는 화면까지 내는 서버 
 ### 명령어로 쓰기(npm 또는 Homebrew)
 
 ```bash
-npm install -g postq
+npm install -g @postq/postq
 postq            # http://127.0.0.1:39200 에서 시작(차 있으면 다음 빈 포트)하고 브라우저를 엽니다
 
 # 또는
@@ -88,11 +88,13 @@ brew install JPWon-1/tap/postq
 postq
 ```
 
+npm 런처는 v0.1.1에서 `@postq/postq`로 배포한다. v0.1.0은 GitHub Releases와 Homebrew에서 받을 수 있다. 설치 뒤 실행 명령은 `postq` 그대로다.
+
 미리 빌드한 실행 파일이라 Rust 나 빌드 과정이 필요 없습니다.
 
 | OS | 아키텍처 | 상태 |
 |---|---|---|
-| macOS | arm64 (Apple Silicon) | 로컬 실행 확인 — M4 Pro 맥에서 npm·Homebrew 설치까지 확인 |
+| macOS | arm64 (Apple Silicon) | 로컬 실행 확인 — M4 Pro 맥에서 로컬 npm tarball·Homebrew 설치 확인 |
 | macOS | x64 (Intel) | CI 에서 확인 예정 — arm64 러너에서 교차 빌드, 실행은 아직 안 함 |
 | Windows | x64 | CI 에서 확인 예정 — 설치 smoke(npm 설치·시작·health 확인·실제 콘솔 Ctrl+C / Ctrl+Break 로 종료) |
 | Linux (glibc 2.35 이상) | x64 | CI 에서 확인 예정 — 설치 smoke(npm 설치·시작·health 확인) |

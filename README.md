@@ -84,7 +84,7 @@ The desktop-app comparison is at the top of this page.
 ### Command line (npm or Homebrew)
 
 ```bash
-npm install -g postq
+npm install -g @postq/postq
 postq            # starts on http://127.0.0.1:39200 (next free port if taken) and opens the browser
 
 # or
@@ -92,11 +92,13 @@ brew install JPWon-1/tap/postq
 postq
 ```
 
+The npm launcher is being released as `@postq/postq` in v0.1.1; v0.1.0 is available through GitHub Releases and Homebrew. The installed command remains `postq`.
+
 Prebuilt binaries, no Rust or build step needed:
 
 | OS | Arch | Status |
 |---|---|---|
-| macOS | arm64 (Apple Silicon) | Run locally — npm and Homebrew installs tested on an M4 Pro Mac |
+| macOS | arm64 (Apple Silicon) | Run locally — local npm tarballs and Homebrew installs tested on an M4 Pro Mac |
 | macOS | x64 (Intel) | To be checked in CI — cross-built on an arm64 runner, not run yet |
 | Windows | x64 | To be checked in CI — install smoke test (npm install, start, health check, stop with a real console Ctrl+C / Ctrl+Break) |
 | Linux (glibc 2.35+) | x64 | To be checked in CI — install smoke test (npm install, start, health check) |

@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.1.1] - Pending release
+
+### Changed
+
+- Renamed the npm launcher package from `postq` to `@postq/postq`; the installed command remains `postq`.
+
+### Fixed
+
+- Release builds for both macOS targets now use `macos-latest` runners.
+
 ## [0.1.0] - 2026-11-06
 
 ### Added

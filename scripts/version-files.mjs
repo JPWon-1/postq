@@ -30,6 +30,7 @@ export function versions() {
     'package-lock.json': lock.version,
     'package-lock.json packages[""]': lock.packages[''].version,
     'npm/postq/package.json': npm.version,
+    'npm/postq package name': npm.name,
     'server/Cargo.toml': tomlVersion('server/Cargo.toml'),
     'src-tauri/Cargo.toml': tomlVersion('src-tauri/Cargo.toml'),
     'src-tauri/tauri.conf.json': json('src-tauri/tauri.conf.json').version,
@@ -52,7 +53,7 @@ export function checkVersions() {
   const values = versions()
   const expected = values['package.json']
   if (!semver.test(expected)) throw new Error(`Invalid SemVer: ${expected}`)
-  const wrong = Object.entries(values).filter(([, value]) => value !== expected)
+  const wrong = Object.entries(values).filter(([path, value]) => value !== (path === 'npm/postq package name' ? '@postq/postq' : expected))
   if (wrong.length) throw new Error(`Version mismatch (expected ${expected}):\n${wrong.map(([path, value]) => `  ${path}: ${value ?? '(missing)'}`).join('\n')}`)
   return expected
 }

@@ -19,7 +19,25 @@ import { gunzipSync } from 'node:zlib'
 import { basename, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const MAIN = 'postq'
+export const MAIN = '@postq/postq'
+const MAIN_DIR = 'postq'
+const PLATFORMS = ['postq-darwin-arm64', 'postq-darwin-x64', 'postq-linux-arm64', 'postq-linux-x64', 'postq-win32-x64']
+
+/** Reject an old unscoped main package or a lookalike before any registry call. */
+export function validatePacks(packs) {
+  const names = packs.map(p => p.name)
+  const allowed = [MAIN, ...PLATFORMS]
+  const unexpected = names.filter(name => !allowed.includes(name))
+  if (unexpected.length) throw new Error(`예상하지 않은 npm 패키지 이름: ${unexpected.join(', ')}`)
+  if (new Set(names).size !== names.length) throw new Error('중복된 npm 패키지 이름이 있습니다')
+  if (names.filter(name => name === MAIN).length !== 1) throw new Error(`${MAIN} 메인 패키지가 정확히 하나 있어야 합니다`)
+}
+
+export function publishArgs(pack, tag, dryRun = false) {
+  const args = ['publish', pack.file, '--access', 'public', '--provenance', '--tag', tag]
+  if (dryRun) args.push('--dry-run')
+  return args
+}
 
 /** semver(x.y.z[-pre]) 비교. 빌드 메타(+…)는 무시. 형식이 틀리면 던진다. */
 export function compareVersions(a, b) {
@@ -148,7 +166,7 @@ function cmdPack(opts) {
   const dirs = readdirSync(npmDir)
     .filter(d => existsSync(join(npmDir, d, 'package.json')))
     .sort()
-  if (!dirs.includes(MAIN)) throw new Error(`${npmDir}/${MAIN} 가 없습니다 — 먼저 package-release.mjs --main-only`)
+  if (!dirs.includes(MAIN_DIR)) throw new Error(`${npmDir}/${MAIN_DIR} 가 없습니다 — 먼저 package-release.mjs --main-only`)
   const packs = []
   const problems = []
   for (const d of dirs) {
@@ -163,6 +181,7 @@ function cmdPack(opts) {
     packs.push({ name: info.name, version: info.version, file, shasum: info.shasum, integrity: info.integrity })
   }
   if (problems.length) throw new Error(problems.join('\n'))
+  validatePacks(packs)
   const versions = new Set(packs.map(p => p.version))
   if (versions.size !== 1) throw new Error(`패키지 버전이 서로 다릅니다: ${[...versions].join(', ')}`)
   writeFileSync(join(out, 'packs.json'), JSON.stringify(packs, null, 2) + '\n')
@@ -177,6 +196,7 @@ function cmdCheck(opts) {
 
 /** 이미 있는 것은 같은지 확인하고, 없는 것은 어떤 태그로 올릴지 정한다. */
 function plan(packs) {
+  validatePacks(packs)
   const steps = []
   for (const p of ordered(packs)) {
     const dist = npmView(`${p.name}@${p.version}`, 'dist')
@@ -218,8 +238,7 @@ function cmdPublish(opts) {
       continue
     }
     // tgz 그대로 올린다 — 위에서 비교한 shasum 이 레지스트리에 그대로 남는다. 토큰이 없으면 npm 이 OIDC(Trusted Publishing)를 쓴다.
-    const args = ['publish', s.file, '--access', 'public', '--provenance', '--tag', s.tag]
-    if (opts.dryRun) args.push('--dry-run')
+    const args = publishArgs(s, s.tag, opts.dryRun)
     console.log(`npm ${args.join(' ')}`)
     const r = npm(args, { allowFail: true })
     process.stdout.write(r.stdout)

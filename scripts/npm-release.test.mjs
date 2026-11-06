@@ -5,7 +5,17 @@ import { chmodSync, mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import test from 'node:test'
-import { checkExecBits, chooseTag, compareVersions, tarModes } from './npm-release.mjs'
+import { MAIN, checkExecBits, chooseTag, compareVersions, publishArgs, tarModes, validatePacks } from './npm-release.mjs'
+
+test('scoped main package, unchanged platform names, and public publishing', () => {
+  assert.equal(MAIN, '@postq/postq')
+  const packs = [{ name: MAIN }, { name: 'postq-darwin-arm64' }]
+  assert.doesNotThrow(() => validatePacks(packs))
+  assert.throws(() => validatePacks([{ name: 'postq' }]), /예상하지 않은/)
+  assert.throws(() => validatePacks([{ name: MAIN }, { name: MAIN }]), /중복/)
+  assert.throws(() => validatePacks([{ name: 'postq-darwin-arm64' }]), /메인 패키지/)
+  assert.deepEqual(publishArgs({ file: 'main.tgz' }, 'latest'), ['publish', 'main.tgz', '--access', 'public', '--provenance', '--tag', 'latest'])
+})
 
 test('버전 비교', () => {
   assert.equal(compareVersions('0.1.0', '0.1.0'), 0)

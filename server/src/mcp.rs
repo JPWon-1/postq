@@ -24,7 +24,7 @@ pub const SUPPORTED_PROTOCOL_VERSIONS: [&str; 5] = [LATEST_PROTOCOL_VERSION, "20
 
 /// initialize 응답의 serverInfo — MCP 클라이언트가 이 이름으로 서버를 보여 준다.
 const SERVER_NAME: &str = "postq";
-const SERVER_VERSION: &str = "0.1.0";
+const SERVER_VERSION: &str = "0.1.1";
 
 static TOOLS: LazyLock<Vec<Value>> =
     LazyLock::new(|| serde_json::from_str(include_str!("mcp_tools.json")).expect("mcp_tools.json 은 올바른 JSON 이어야 한다"));
@@ -479,7 +479,7 @@ mod tests {
         let r = handle_request(&st, &id, "initialize", Some(&json!({ "protocolVersion": "1999-01-01", "capabilities": {}, "clientInfo": { "name": "x", "version": "1" } }))).await;
         assert_eq!(
             js::stringify(&r),
-            r#"{"result":{"protocolVersion":"2025-11-25","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"postq","version":"0.1.0"}},"jsonrpc":"2.0","id":1}"#
+            r#"{"result":{"protocolVersion":"2025-11-25","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"postq","version":"0.1.1"}},"jsonrpc":"2.0","id":1}"#
         );
         assert_eq!(js::stringify(&handle_request(&st, &json!("a"), "nope", None).await), r#"{"jsonrpc":"2.0","id":"a","error":{"code":-32601,"message":"Method not found"}}"#);
         assert_eq!(

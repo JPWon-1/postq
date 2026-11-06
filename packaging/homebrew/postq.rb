@@ -3,27 +3,27 @@
 class Postq < Formula
   desc "Local API client (Postman-like) that runs in your browser"
   homepage "https://github.com/JPWon-1/postq"
-  version "0.1.0"
+  version "0.1.1"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/JPWon-1/postq/releases/download/v0.1.0/postq-0.1.0-darwin-arm64.tar.gz"
+      url "https://github.com/JPWon-1/postq/releases/download/v0.1.1/postq-0.1.1-darwin-arm64.tar.gz"
       sha256 "0000000000000000000000000000000000000000000000000000000000000000"
     end
     on_intel do
-      url "https://github.com/JPWon-1/postq/releases/download/v0.1.0/postq-0.1.0-darwin-x64.tar.gz"
+      url "https://github.com/JPWon-1/postq/releases/download/v0.1.1/postq-0.1.1-darwin-x64.tar.gz"
       sha256 "0000000000000000000000000000000000000000000000000000000000000000"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/JPWon-1/postq/releases/download/v0.1.0/postq-0.1.0-linux-arm64.tar.gz"
+      url "https://github.com/JPWon-1/postq/releases/download/v0.1.1/postq-0.1.1-linux-arm64.tar.gz"
       sha256 "0000000000000000000000000000000000000000000000000000000000000000"
     end
     on_intel do
-      url "https://github.com/JPWon-1/postq/releases/download/v0.1.0/postq-0.1.0-linux-x64.tar.gz"
+      url "https://github.com/JPWon-1/postq/releases/download/v0.1.1/postq-0.1.1-linux-x64.tar.gz"
       sha256 "0000000000000000000000000000000000000000000000000000000000000000"
     end
   end

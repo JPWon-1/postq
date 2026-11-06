@@ -1,6 +1,6 @@
 [package]
 name = "postq-server"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "postq backend: a Rust (axum) server that serves the API and the static UI"
 license = "MIT"

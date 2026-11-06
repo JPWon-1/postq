@@ -2,6 +2,8 @@
 
 postq is a local API client with a Rust API server, a statically exported Next.js UI, and a Tauri desktop app.
 
+The public npm launcher is `@postq/postq` (`npm install -g @postq/postq`); its executable and the five `postq-<platform>` package names remain unchanged.
+
 ## Repository map
 
 | Path | Purpose |

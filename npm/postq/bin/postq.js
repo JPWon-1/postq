@@ -43,12 +43,12 @@ function findBinary() {
       `postq: the platform package "${pkg}" is not installed.`,
       'It is an optional dependency, so it is skipped when installing with --omit=optional / --no-optional,',
       'or when node_modules was copied from another OS or CPU.',
-      'Reinstall:  npm install -g postq',
+      'Reinstall:  npm install -g @postq/postq',
     ])
   }
   const bin = path.join(dir, exe)
   if (!fs.existsSync(bin)) {
-    fail([`postq: ${bin} is missing — the package "${pkg}" looks broken. Reinstall: npm install -g postq`])
+    fail([`postq: ${bin} is missing — the package "${pkg}" looks broken. Reinstall: npm install -g @postq/postq`])
   }
   return bin
 }

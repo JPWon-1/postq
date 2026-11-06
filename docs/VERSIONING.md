@@ -7,13 +7,13 @@ postq는 `MAJOR.MINOR.PATCH` SemVer를 쓴다. 0.x에서는 호환되지 않는 
 | 위치 | 역할 |
 | --- | --- |
 | `package.json`, `package-lock.json`(루트와 빈 패키지 항목) | 개발·빌드용 npm 프로젝트 |
-| `npm/postq/package.json`의 `version`과 5개 `optionalDependencies` | 배포용 npm 런처 및 OS별 패키지 의존성 |
+| `npm/postq/package.json`의 `name`, `version`과 5개 `optionalDependencies` | 공개 스코프 npm 런처 `@postq/postq` 및 기존 이름을 유지하는 OS별 패키지 의존성 |
 | `server/Cargo.toml`, `server/Cargo.lock`의 `postq-server` | 서버와 `postq --version` |
 | `src-tauri/Cargo.toml`, `src-tauri/Cargo.lock`의 `postq-desktop`·`postq-server`, `src-tauri/tauri.conf.json` | 데스크톱 앱과 서버 경로 의존성 |
 | `server/src/mcp.rs`의 `SERVER_VERSION`과 프로토콜 테스트 기대값 | MCP `serverInfo.version` |
 | `packaging/homebrew/postq.rb` | Homebrew formula 견본의 버전과 다운로드 URL; 실제 릴리스 formula는 `scripts/update-formula.mjs`가 생성 |
 
-`scripts/package-release.mjs`가 만드는 `dist/npm/`의 5개 플랫폼 패키지는 생성물이다. `docs/benchmark.md`의 버전은 측정 당시를 가리키는 기록이므로 일괄 변경하지 않는다. README의 첫 배포 전 `v0.1.0` 표기도 배포 상태 설명이다.
+`scripts/package-release.mjs`가 만드는 `dist/npm/`의 5개 플랫폼 패키지는 생성물이다. `docs/benchmark.md`의 버전은 측정 당시를 가리키는 기록이므로 일괄 변경하지 않는다. v0.1.0은 GitHub Releases·Homebrew와 5개 npm 플랫폼 패키지로 이미 나갔다. 메인 npm 런처는 이름 충돌로 게시되지 않아 v0.1.1부터 `@postq/postq`를 쓴다. `postq` 명령과 플랫폼 패키지 이름은 그대로다.
 
 ## 올리는 순서
 

@@ -1,6 +1,6 @@
 {
-  "name": "postq",
-  "version": "0.1.0",
+  "name": "@postq/postq",
+  "version": "0.1.1",
   "description": "A local API client (Postman-like) that runs in your browser: request templates, execution history, scenarios, schedules and a built-in MCP server.",
   "license": "MIT",
   "keywords": [
@@ -32,10 +32,10 @@
     "node": ">=18"
   },
   "optionalDependencies": {
-    "postq-darwin-arm64": "0.1.0",
-    "postq-darwin-x64": "0.1.0",
-    "postq-linux-arm64": "0.1.0",
-    "postq-linux-x64": "0.1.0",
-    "postq-win32-x64": "0.1.0"
+    "postq-darwin-arm64": "0.1.1",
+    "postq-darwin-x64": "0.1.1",
+    "postq-linux-arm64": "0.1.1",
+    "postq-linux-x64": "0.1.1",
+    "postq-win32-x64": "0.1.1"
   }
 }
