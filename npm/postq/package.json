@@ -1,0 +1,41 @@
+{
+  "name": "postq",
+  "version": "0.1.0",
+  "description": "A local API client (Postman-like) that runs in your browser: request templates, execution history, scenarios, schedules and a built-in MCP server.",
+  "license": "MIT",
+  "keywords": [
+    "api",
+    "api-client",
+    "http",
+    "rest",
+    "postman",
+    "mcp",
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JPWon-1/postq.git"
+  },
+  "homepage": "https://github.com/JPWon-1/postq",
+  "bugs": {
+    "url": "https://github.com/JPWon-1/postq/issues"
+  },
+  "bin": {
+    "postq": "bin/postq.js"
+  },
+  "files": [
+    "bin/postq.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "optionalDependencies": {
+    "postq-darwin-arm64": "0.1.0",
+    "postq-darwin-x64": "0.1.0",
+    "postq-linux-arm64": "0.1.0",
+    "postq-linux-x64": "0.1.0",
+    "postq-win32-x64": "0.1.0"
+  }
+}

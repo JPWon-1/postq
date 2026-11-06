@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "postq Cookie Bridge",
+  "version": "1.0.0",
+  "description": "지금 브라우저에 로그인된 도메인의 쿠키를 postq 로 보냅니다. (OS 저장소를 뚫지 않고, 브라우저가 확장에 허용한 권한으로 읽습니다.)",
+  "permissions": [
+    "cookies"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "postq 로 쿠키 보내기",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  }
+}

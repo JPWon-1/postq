@@ -1,0 +1,47 @@
+import { expect, test } from '@playwright/test'
+
+test('collection streams individual rows, expands failures, reapplies common input and excludes writes', async ({ page }) => {
+  const folder = await (await page.request.post('/api/folders', { data: { name: `e2e-stream-${Date.now()}`, workspaceId: 'default' } })).json()
+  const host = process.env.E2E_HOST_ALIAS || 'localhost'
+  const add = async (name: string, method: string, path: string) => (await page.request.post('/api/requests', { data: { folderId: folder.id, name, method, url: `http://${host}:${process.env.E2E_ECHO_PORT ?? '9999'}${path}` } })).json()
+  const customer = await add('customer-input', 'GET', '/{customerNumber}')
+  const slow = await add('slow-response', 'GET', '/sse')
+  const write = await add('write-excluded', 'POST', '/write')
+  // Persisted ordering makes the progressive assertion independent of generated UUIDs.
+  await page.request.post('/api/requests/reorder', { data: { id: customer.id, beforeId: slow.id } })
+  await page.addInitScript(() => { localStorage.setItem('ah:workspace', 'default'); localStorage.setItem('ah:mode', 'collection') })
+  try {
+    await page.goto('/')
+    const menu = page.getByRole('button', { name: `'${folder.name}' 폴더 작업`, exact: true })
+    await menu.scrollIntoViewIfNeeded()
+    await menu.click({ force: true })
+    await expect(page.getByRole('menuitem', { name: /OpenAPI로 내보내기/ })).toBeVisible()
+    await page.getByRole('menuitem', { name: /일괄 실행/ }).click()
+    const dialog = page.getByRole('dialog', { name: `'${folder.name}' 폴더 일괄 실행` })
+    await expect(dialog.getByLabel('customerNumber', { exact: true })).toBeVisible()
+    await expect(dialog.getByLabel('쓰기 포함')).not.toBeChecked()
+    const cr = dialog.getByTestId(`run-row-${customer.id}`), sr = dialog.getByTestId(`run-row-${slow.id}`), wr = dialog.getByTestId(`run-row-${write.id}`)
+    await expect(wr).toContainText('쓰기 요청 제외')
+    await dialog.getByRole('button', { name: '전체 실행', exact: true }).click()
+    await expect(cr).toContainText('경로 파라미터를 입력하세요: customerNumber')
+    await expect(sr.locator('summary')).toContainText('실행 중')
+    await expect(dialog.getByRole('status')).toContainText('진행 2/3')
+    await expect(sr.locator('summary')).toContainText('성공')
+    await cr.locator('summary').click()
+    await expect(cr).toContainText('전송 URL:')
+    await expect(cr).toContainText('입력이 필요한 변수: customerNumber')
+    await expect(cr).toContainText('응답 본문 없음')
+    await dialog.getByLabel('실패만 보기').check()
+    await expect(sr).toHaveCount(0)
+    await dialog.getByLabel('실패만 보기').uncheck()
+    await dialog.getByLabel('customerNumber', { exact: true }).fill('C123')
+    await dialog.getByRole('button', { name: '다시 실행', exact: true }).click()
+    await expect(cr.locator('summary')).toContainText('성공')
+    await expect(cr).not.toContainText('경로 파라미터를 입력하세요')
+    await expect(sr.locator('summary')).toContainText('성공')
+    await expect(wr).toContainText('쓰기 요청 제외')
+    await expect(dialog.getByRole('status')).toContainText('진행 3/3')
+  } finally {
+    await page.request.delete(`/api/folders/${folder.id}`)
+  }
+})

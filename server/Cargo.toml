@@ -1,0 +1,67 @@
+[package]
+name = "postq-server"
+version = "0.1.0"
+edition = "2021"
+description = "postq backend: a Rust (axum) server that serves the API and the static UI"
+license = "MIT"
+
+[lib]
+name = "postq_server"
+path = "src/lib.rs"
+
+[[bin]]
+name = "postq-server"
+path = "src/main.rs"
+
+# 사용자용 명령(npm·Homebrew 로 배포) — server/src/cli.rs.
+[[bin]]
+name = "postq"
+path = "src/bin/postq.rs"
+
+[dependencies]
+axum = { version = "0.8", features = ["http1", "json", "query", "tokio"], default-features = false }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "sync", "time", "signal"] }
+rusqlite = { version = "0.37", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+# preserve_order — JS 객체처럼 키 순서를 넣은 순서대로 지킨다. 화면·저장본이 키 순서에 기댄다.
+serde_json = { version = "1", features = ["preserve_order"] }
+# gzip·brotli·deflate: 본문을 받아 쓰는 클라이언트(outbound·SSE)는 자동으로 푼다.
+# 실행기(이력에 원래 헤더를 남기려고 직접 푼다)와 프록시(원본을 그대로 넘긴다)는 클라이언트에서 끈다.
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream", "json", "gzip", "brotli", "deflate"] }
+futures-util = { version = "0.3", default-features = false, features = ["std"] }
+sha2 = "0.10"
+hex = "0.4"
+anyhow = "1"
+uuid = { version = "1", features = ["v4"] }
+# secretbox — aes-256-gcm("enc:v1:" 형식).
+aes-gcm = { version = "0.10", default-features = false, features = ["aes", "alloc"] }
+base64 = { version = "0.22", default-features = false, features = ["alloc"] }
+getrandom = "0.2"
+# 쿼리 문자열을 URLSearchParams 와 같은 규칙으로 읽는다(첫 값, + → 공백, 깨진 % 는 그대로).
+form_urlencoded = "1"
+# 변수 참조 패턴({{name}}) — JS 의 \p{L}\p{N} 을 그대로 옮기려고 유니코드 범주만 켠다.
+regex = { version = "1", default-features = false, features = ["std", "unicode-gencat", "unicode-perl"] }
+# 응답 압축 풀기 — reqwest 의 자동 해제는 content-encoding·content-length 헤더를 지워 버려 이력에 남는 응답 헤더가
+# 실제와 달라지므로, 헤더는 두고 본문만 직접 푼다.
+flate2 = { version = "1", default-features = false, features = ["rust_backend"] }
+brotli-decompressor = "5"
+# 경로 추출(openapi 내보내기)을 JS 의 new URL 과 같은 WHATWG 규칙으로 — reqwest 가 이미 끌어오는 크레이트다.
+url = { version = "2", default-features = false, features = ["std"] }
+ryu-js = { version = "1.0.3", default-features = false }
+# MCP 도구가 라우트를 서버 안에서 그대로 부른다(Router::oneshot) — 로직이 두 벌이 되지 않는다. axum 이 이미 util 기능으로 끌어오는 크레이트다.
+tower = { version = "0.5", default-features = false, features = ["util"] }
+encoding_rs = "0.8"
+
+# 데이터 폴더·키 파일 권한 보정 때 '내 파일인지'(geteuid) 본다 — 이미 다른 크레이트가 끌어오는 크레이트다.
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"

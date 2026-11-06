@@ -1,0 +1,38 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "postq",
+  "version": "0.1.0",
+  "identifier": "dev.postq.desktop",
+  "build": {
+    "frontendDist": "http://localhost:3000",
+    "devUrl": "http://localhost:3000"
+  },
+  "app": {
+    "windows": [],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "shortDescription": "Personal API client",
+    "longDescription": "postq — a personal API client with immutable request templates, execution history, scenarios, schedules and a built-in MCP server.",
+    "license": "MIT",
+    "licenseFile": "../LICENSE",
+    "copyright": "Copyright (c) 2026 postq contributors",
+    "android": {
+      "debugApplicationIdSuffix": ".debug"
+    },
+    "resources": {
+      "runtime/": "runtime/"
+    }
+  }
+}

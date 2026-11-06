@@ -1,0 +1,1 @@
+ALTER TABLE `folders` ADD `description` text DEFAULT '' NOT NULL;

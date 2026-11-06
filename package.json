@@ -1,0 +1,47 @@
+{
+  "name": "postq",
+  "version": "0.1.0",
+  "description": "A personal API client (Postman-like) with immutable request templates, execution history, scenarios, schedules and a built-in MCP server.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JPWon-1/postq.git"
+  },
+  "homepage": "https://github.com/JPWon-1/postq",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev-rust.mjs",
+    "build": "next build",
+    "build:static": "npm run build",
+    "test": "vitest run",
+    "tauri": "tauri",
+    "app:dev": "tauri dev",
+    "app:build": "npm run build:static && node scripts/prepare-runtime.mjs && node scripts/tauri-build.mjs",
+    "e2e": "playwright test",
+    "e2e:echo": "node e2e/echo-server.mjs",
+    "e2e:mock-spec": "node e2e/mock-spec-server.mjs",
+    "e2e:ws-echo": "node e2e/ws-echo-server.mjs",
+    "e2e:safe": "node scripts/e2e-safe.mjs",
+    "version:bump": "node scripts/bump-version.mjs",
+    "version:check": "node scripts/check-version.mjs"
+  },
+  "dependencies": {
+    "next": "15.5.21",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@tailwindcss/postcss": "^4",
+    "@tauri-apps/cli": "^2.11.4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.10",
+    "drizzle-orm": "^0.45.2",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.10"
+  }
+}

@@ -1,0 +1,239 @@
+[
+ {
+  "name": "search_requests",
+  "description": "저장된 API 요청(템플릿)을 검색한다. 이름/URL/메서드/폴더명 매칭. 실행하려면 여기서 requestId 를 얻는다.",
+  "inputSchema": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "query": {
+     "type": "string",
+     "description": "검색어 (빈 문자열이면 전체)"
+    },
+    "workspaceId": {
+     "default": "default",
+     "type": "string"
+    }
+   },
+   "required": [
+    "query"
+   ]
+  },
+  "execution": {
+   "taskSupport": "forbidden"
+  }
+ },
+ {
+  "name": "get_request",
+  "description": "실행 전에 필요한 변수·경로 파라미터·본문 구조·메서드·AI 실행 허용 여부를 확인한다. 본문 예시는 리터럴 값을 타입 자리표시자로 가려 비밀값을 제외한다.",
+  "inputSchema": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "requestId": {
+     "type": "string"
+    },
+    "workspaceId": {
+     "default": "default",
+     "type": "string"
+    }
+   },
+   "required": [
+    "requestId"
+   ]
+  },
+  "execution": {
+   "taskSupport": "forbidden"
+  }
+ },
+ {
+  "name": "execute_request",
+  "description": "저장된 요청을 이번 실행에서만 변경해 실행한다. 저장본은 바뀌지 않는다. get_request 로 필요한 입력을 확인한다. vars 는 환경·요청 변수보다 우선: {\"orderId\":\"O123\"} 로 {{orderId}} 또는 {orderId} 치환. params 는 쿼리 추가/대체: {\"page\":\"2\"}. body 는 JSON 문자열로 전체 대체: \"{\"name\":\"새 상품\",\"price\":1000}\". bodyMerge 는 최상위 키만 얕게 병합: {\"price\":1000}; 중첩 객체·배열은 통째로 대체하며 body 와 함께 쓰지 않는다. 헤더 덮어쓰기는 인증 헤더 위조 방지를 위해 제공하지 않으며 vars 도 헤더·인증에 적용되지 않는다. 메서드·URL 호스트 변경 불가. curl 로 우회하지 말고 이 도구를 쓰라. 이 도구는 이력과 안전 검사를 남긴다. 쓰기는 AI 실행 허용과 환경 정책을 따른다.",
+  "inputSchema": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "requestId": {
+     "type": "string"
+    },
+    "vars": {
+     "description": "이번 실행 URL/쿼리/본문 변수. 예: {\"orderId\":\"O123\"}",
+     "type": "object",
+     "propertyNames": {
+      "type": "string"
+     },
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "params": {
+     "description": "쿼리 키 추가/대체. 예: {\"page\":\"2\"}",
+     "type": "object",
+     "propertyNames": {
+      "type": "string"
+     },
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "body": {
+     "description": "JSON 문자열로 본문 전체 대체. bodyMerge 와 배타적",
+     "type": "string"
+    },
+    "bodyMerge": {
+     "description": "JSON 객체 본문 최상위 키만 얕게 병합; 중첩 객체·배열은 대체",
+     "type": "object",
+     "propertyNames": {
+      "type": "string"
+     },
+     "additionalProperties": {}
+    },
+    "environmentName": {
+     "description": "환경 이름 (예: '로컬', '개발', '운영'). 생략 시 변수 치환 없음",
+     "type": "string"
+    },
+    "workspaceId": {
+     "default": "default",
+     "type": "string"
+    },
+    "executedBy": {
+     "default": "Claude(MCP)",
+     "type": "string"
+    }
+   },
+   "required": [
+    "requestId"
+   ]
+  },
+  "execution": {
+   "taskSupport": "forbidden"
+  }
+ },
+ {
+  "name": "get_history",
+  "description": "요청의 실행 이력(누가·언제·무슨 값·무슨 응답)을 조회한다.",
+  "inputSchema": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "requestId": {
+     "type": "string"
+    },
+    "limit": {
+     "default": 5,
+     "type": "number"
+    }
+   },
+   "required": [
+    "requestId"
+   ]
+  },
+  "execution": {
+   "taskSupport": "forbidden"
+  }
+ },
+ {
+  "name": "run_scenario",
+  "description": "API 체인 시나리오를 실행한다. vars 예: {\"orderId\":\"O123\"} 는 이번 실행의 공유 변수만 덮어쓴다(요청·스텝·추출 변수 우선순위 유지). 저장본 불변, 헤더·인증 및 URL 호스트 변경 불가. curl 로 우회하지 말고 이 도구를 쓰라. 이 도구는 이력과 스텝별 안전 검사를 남긴다.",
+  "inputSchema": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "flowName": {
+     "type": "string",
+     "description": "시나리오 이름 (부분 일치)"
+    },
+    "vars": {
+     "description": "이번 실행 공유 변수 덮어쓰기",
+     "type": "object",
+     "propertyNames": {
+      "type": "string"
+     },
+     "additionalProperties": {
+      "type": "string"
+     }
+    },
+    "environmentName": {
+     "type": "string"
+    },
+    "workspaceId": {
+     "default": "default",
+     "type": "string"
+    }
+   },
+   "required": [
+    "flowName"
+   ]
+  },
+  "execution": {
+   "taskSupport": "forbidden"
+  }
+ },
+ {
+  "name": "create_scenario",
+  "description": "API 체인 시나리오를 만든다. 저장된 요청 이름들을 순서대로 주면 그 순서로 스텝을 잇는다. 만든 뒤 run_scenario 로 실행할 수 있다.",
+  "inputSchema": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {
+    "name": {
+     "type": "string",
+     "description": "만들 시나리오 이름"
+    },
+    "requestNames": {
+     "minItems": 1,
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "스텝 순서대로의 요청 이름(부분 일치). 예: [\"로그인\",\"주문 조회\"]"
+    },
+    "sharedVars": {
+     "description": "모든 스텝이 공유하는 입력값. secret=true 면 암호화 저장되고 이력에서 가려진다.",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "key": {
+        "type": "string"
+       },
+       "value": {
+        "type": "string"
+       },
+       "secret": {
+        "type": "boolean"
+       }
+      },
+      "required": [
+       "key",
+       "value"
+      ]
+     }
+    },
+    "workspaceId": {
+     "default": "default",
+     "type": "string"
+    }
+   },
+   "required": [
+    "name",
+    "requestNames"
+   ]
+  },
+  "execution": {
+   "taskSupport": "forbidden"
+  }
+ },
+ {
+  "name": "get_workspace_info",
+  "description": "프로젝트(워크스페이스) 목록과 각 프로젝트의 환경·폴더 목록과 폴더 설명을 조회한다 — 다른 도구의 workspaceId/environmentName 인자용.",
+  "inputSchema": {
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "type": "object",
+   "properties": {}
+  },
+  "execution": {
+   "taskSupport": "forbidden"
+  }
+ }
+]

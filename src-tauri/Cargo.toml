@@ -1,0 +1,29 @@
+[package]
+name = "postq-desktop"
+version = "0.1.0"
+description = "postq desktop app (Tauri)"
+license = "MIT"
+edition = "2021"
+rust-version = "1.77.2"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.6.3", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4"
+tauri = { version = "2.11.3", features = [] }
+tauri-plugin-log = "2"
+# 백엔드 — 같은 프로세스에서 돈다.
+postq-server = { path = "../server" }
+# 서버 전용 런타임 — 서버 스레드에서 직접 만든다(Tauri 의 비동기 런타임과 섞지 않는다).
+tokio = { version = "1", features = ["rt-multi-thread"] }
+# 서버 출력을 로그 파일로 돌리는 파이프(pipe·dup2).
+libc = "0.2"
