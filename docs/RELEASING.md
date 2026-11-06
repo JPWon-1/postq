@@ -1,6 +1,6 @@
 # 배포하기
 
-`npm install -g @postq/postq` 와 `brew install JPWon-1/tap/postq` 로 깔리게 하는 절차입니다. 실행 명령은 둘 다 `postq`입니다.
+`npm install -g @rocknzero/postq` 와 `brew install JPWon-1/tap/postq` 로 깔리게 하는 절차입니다. 실행 명령은 둘 다 `postq`입니다.
 실제 빌드·업로드는 `.github/workflows/release.yml` 이 `v*` 태그를 받으면 합니다. 버전 파일 목록·증가 규칙은 [VERSIONING.md](VERSIONING.md), 검증은 [HARNESS.md](HARNESS.md)를 봅니다.
 
 ## 무엇이 어디로 가나
@@ -14,24 +14,24 @@
 | Windows x64 | windows-latest | `postq-<버전>-win32-x64.zip`, npm `postq-win32-x64` |
 
 - 묶음 안: `postq`(윈도우는 `.exe`), `ui/`(정적 화면), `drizzle/`(마이그레이션), `LICENSE`, `README.md`.
-- npm 메인 패키지 `@postq/postq` 는 런처(`bin/postq.js`)뿐이고, 위 5개를 `optionalDependencies` 로 둡니다. 공개 스코프 패키지는 게시할 때 `--access public`이 필요하며 `scripts/npm-release.mjs`가 지정합니다.
+- npm 메인 패키지 `@rocknzero/postq` 는 런처(`bin/postq.js`)뿐이고, 위 5개를 `optionalDependencies` 로 둡니다. 공개 스코프 패키지는 게시할 때 `--access public`이 필요하며 `scripts/npm-release.mjs`가 지정합니다.
   npm 이 `os`·`cpu` 를 보고 맞는 하나만 받습니다(설치 때 따로 내려받는 단계 없음).
 - Homebrew formula 는 macOS·Linux 묶음 4개를 가리킵니다(윈도우 제외).
 
 ## 첫 게시 설정
 
-v0.1.0은 GitHub Releases와 Homebrew로 배포됐고, npm 플랫폼 패키지 5개도 0.1.0이 게시됐습니다. 메인 이름 `postq`는 npm의 유사 이름 검사에서 거절됐습니다. v0.1.0 태그는 유지하고 v0.1.1부터 `@postq/postq`를 게시합니다.
+v0.1.0은 GitHub Releases와 Homebrew로 배포됐고, npm 플랫폼 패키지 5개도 0.1.0이 게시됐습니다. 메인 이름 `postq`는 npm의 유사 이름 검사에서 거절됐습니다. v0.1.0 태그는 유지하고 v0.1.1부터 `@rocknzero/postq`를 게시합니다.
 
 1. **CI 설치 검사** — `ci.yml` 의 `install-smoke` 가 ubuntu·macos·windows 에서
    "패키지 만들기 → `npm install -g` → `postq --version` → 띄워서 `/api/health`·`/` 200 → 종료" 를 확인합니다.
    종료는 유닉스에서 SIGINT(런처 종료 코드 0 확인), 윈도우에서 **실제 콘솔 Ctrl+C·Ctrl+Break**
    (`scripts/win-ctrl-smoke.ps1` — 새 콘솔로 띄운 뒤 `GenerateConsoleCtrlEvent`)를 보내 런처가 0 으로 끝나는지 봅니다.
    실패하면 로그의 `launcher exit code` 와 `----- log -----` 를 봅니다.
-2. **npm 인증** — `@postq/postq` 첫 게시에는 인증이 필요합니다. 플랫폼 패키지 5개의 0.1.0은 이미 게시됐으며 이름을 바꾸지 않습니다.
+2. **npm 인증** — `@rocknzero/postq` 첫 게시에는 인증이 필요합니다. 플랫폼 패키지 5개의 0.1.0은 이미 게시됐으며 이름을 바꾸지 않습니다.
    - **권장: Trusted Publishing(OIDC).** npmjs.com 의 각 패키지 Settings → Trusted Publisher 에서 GitHub Actions,
      저장소 `JPWon-1/postq`, 워크플로 `release.yml` 을 등록합니다(게시된 플랫폼 5개는 등록 가능). 그러면 비밀값 없이
      `id-token: write` 권한으로 배포되고 provenance 가 붙습니다. npm CLI 11.5.1 이상이 필요해 워크플로가 먼저 npm 을 올립니다.
-     Trusted Publisher 는 이미 있는 패키지에만 걸 수 있으므로 **`@postq/postq` 첫 게시는 아래 토큰으로** 하고,
+     Trusted Publisher 는 이미 있는 패키지에만 걸 수 있으므로 **`@rocknzero/postq` 첫 게시는 아래 토큰으로** 하고,
      새 패키지에도 등록한 뒤 `NPM_TOKEN` 을 지우고 토큰도 폐기합니다. 패키지 Settings 의 Publishing access 를
      "Require two-factor authentication and disallow tokens" 로 두면 토큰 경로가 막혀 더 안전합니다.
    - **토큰:** npmjs.com 에서 Granular Access Token 을 만듭니다 — Packages and scopes 는 Read and write,
@@ -74,7 +74,7 @@ v0.1.0은 GitHub Releases와 Homebrew로 배포됐고, npm 플랫폼 패키지 5
 
 ## 이름 선점 주의
 
-플랫폼 패키지 5개의 0.1.0은 이미 게시됐습니다. 메인 패키지는 `@postq/postq`로 바뀌었습니다. `npm-release.mjs`는 예상하지 않은 이름이나 중복을 레지스트리 조회 전에 거부합니다.
+플랫폼 패키지 5개의 0.1.0은 이미 게시됐습니다. 메인 패키지는 `@rocknzero/postq`로 바뀌었습니다. `npm-release.mjs`는 예상하지 않은 이름이나 중복을 레지스트리 조회 전에 거부합니다.
 워크플로는 같은 이름·버전이 이미 있으면 그 `dist.shasum`·`dist.integrity` 가 이번에 만든 tgz 와 같은지 보고, 다르면 publish 전에
 멈춥니다(`npm-release.mjs verify`). 이름만 먼저 가져가고 다른 버전을 올려 둔 경우는 막지 못하니 — 우리 publish 가
 권한 오류(E403)로 실패합니다 — `npm view <이름> maintainers` 로 주인을 확인합니다.
@@ -82,8 +82,8 @@ v0.1.0은 GitHub Releases와 Homebrew로 배포됐고, npm 플랫폼 패키지 5
 ## 확인
 
 ```bash
-npm view @postq/postq version                 # 새 버전
-npm install -g @postq/postq && postq --version
+npm view @rocknzero/postq version                 # 새 버전
+npm install -g @rocknzero/postq && postq --version
 brew update && brew install JPWon-1/tap/postq && postq --version
 postq                                  # 브라우저가 http://127.0.0.1:39200 으로 열린다
 ```

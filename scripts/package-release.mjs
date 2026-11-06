@@ -112,7 +112,7 @@ function platformPackage(dir, triple, version, payload) {
   writeJson(join(dir, 'package.json'), {
     name,
     ...common(version),
-    description: `The ${t.platform} binary for postq. Install "@postq/postq" instead of this package.`,
+    description: `The ${t.platform} binary for postq. Install "@rocknzero/postq" instead of this package.`,
     os: [t.os],
     cpu: [t.cpu],
     ...(t.libc ? { libc: [t.libc] } : {}),
@@ -122,7 +122,7 @@ function platformPackage(dir, triple, version, payload) {
   })
   writeFileSync(
     join(dir, 'README.md'),
-    `# ${name}\n\nThe prebuilt \`${t.platform}\` binary of [postq](${REPO}). Do not install this directly — run:\n\n\`\`\`sh\nnpm install -g @postq/postq\n\`\`\`\n`,
+    `# ${name}\n\nThe prebuilt \`${t.platform}\` binary of [postq](${REPO}). Do not install this directly — run:\n\n\`\`\`sh\nnpm install -g @rocknzero/postq\n\`\`\`\n`,
   )
   return name
 }
@@ -131,7 +131,7 @@ function mainPackage(dir, version) {
   rmSync(dir, { recursive: true, force: true })
   mkdirSync(join(dir, 'bin'), { recursive: true })
   const src = JSON.parse(readFileSync(join(root, 'npm/postq/package.json'), 'utf8'))
-  if (src.name !== '@postq/postq') throw new Error(`메인 npm 패키지 이름이 다릅니다: ${src.name}`)
+  if (src.name !== '@rocknzero/postq') throw new Error(`메인 npm 패키지 이름이 다릅니다: ${src.name}`)
   const optionalDependencies = Object.fromEntries(
     Object.values(TARGETS)
       .map(t => `postq-${t.platform}`)

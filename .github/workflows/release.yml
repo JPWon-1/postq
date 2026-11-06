@@ -173,7 +173,7 @@ jobs:
         run: |
           v=$(node -p "require('./package.json').version")
           prefix="$RUNNER_TEMP/pq"
-          npm install -g --prefix "$prefix" --omit=optional --no-audit --no-fund "./tgz/postq-postq-$v.tgz" "./tgz/postq-linux-x64-$v.tgz"
+          npm install -g --prefix "$prefix" --omit=optional --no-audit --no-fund "./tgz/rocknzero-postq-$v.tgz" "./tgz/postq-linux-x64-$v.tgz"
           out=$("$prefix/bin/postq" --version)
           echo "$out"
           test "$out" = "postq $v"

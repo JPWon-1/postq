@@ -1,5 +1,5 @@
 {
-  "name": "@postq/postq",
+  "name": "@rocknzero/postq",
   "version": "0.1.1",
   "description": "A local API client (Postman-like) that runs in your browser: request templates, execution history, scenarios, schedules and a built-in MCP server.",
   "license": "MIT",

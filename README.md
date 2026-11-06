@@ -84,7 +84,7 @@ The desktop-app comparison is at the top of this page.
 ### Command line (npm or Homebrew)
 
 ```bash
-npm install -g @postq/postq
+npm install -g @rocknzero/postq
 postq            # starts on http://127.0.0.1:39200 (next free port if taken) and opens the browser
 
 # or
@@ -92,7 +92,7 @@ brew install JPWon-1/tap/postq
 postq
 ```
 
-The npm launcher is being released as `@postq/postq` in v0.1.1; v0.1.0 is available through GitHub Releases and Homebrew. The installed command remains `postq`.
+The npm launcher is being released as `@rocknzero/postq` in v0.1.1; v0.1.0 is available through GitHub Releases and Homebrew. The installed command remains `postq`.
 
 Prebuilt binaries, no Rust or build step needed:
 

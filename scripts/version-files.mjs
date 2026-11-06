@@ -53,7 +53,7 @@ export function checkVersions() {
   const values = versions()
   const expected = values['package.json']
   if (!semver.test(expected)) throw new Error(`Invalid SemVer: ${expected}`)
-  const wrong = Object.entries(values).filter(([path, value]) => value !== (path === 'npm/postq package name' ? '@postq/postq' : expected))
+  const wrong = Object.entries(values).filter(([path, value]) => value !== (path === 'npm/postq package name' ? '@rocknzero/postq' : expected))
   if (wrong.length) throw new Error(`Version mismatch (expected ${expected}):\n${wrong.map(([path, value]) => `  ${path}: ${value ?? '(missing)'}`).join('\n')}`)
   return expected
 }

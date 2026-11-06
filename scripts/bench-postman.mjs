@@ -97,7 +97,7 @@ function npmInstallSizes() {
     const inst = spawnSync(npm, ['install', '-g', '--prefix', prefix, '--no-audit', '--no-fund', ...readdirSync(packs).map(n => join(packs, n))], { encoding: 'utf8', shell: IS_WIN })
     if (inst.status !== 0) throw new Error(`npm install 실패:\n${inst.stderr}`)
     const modules = IS_WIN ? join(prefix, 'node_modules') : join(prefix, 'lib', 'node_modules')
-    const installedNames = readdirSync(modules).flatMap(n => n === '@postq' ? readdirSync(join(modules, n)).map(p => `@postq/${p}`) : n.startsWith('postq-') ? [n] : [])
+    const installedNames = readdirSync(modules).flatMap(n => n === '@rocknzero' ? readdirSync(join(modules, n)).filter(p => p === 'postq').map(p => `@rocknzero/${p}`) : n.startsWith('postq-') ? [n] : [])
     const installed = Object.fromEntries(installedNames.map(n => [n, diskUsage(join(modules, n))]))
     return {
       releaseArchive: archive ? { name: archive, bytes: statSync(join(dist, archive)).size } : null,

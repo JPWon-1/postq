@@ -19,7 +19,7 @@ import { gunzipSync } from 'node:zlib'
 import { basename, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-export const MAIN = '@postq/postq'
+export const MAIN = '@rocknzero/postq'
 const MAIN_DIR = 'postq'
 const PLATFORMS = ['postq-darwin-arm64', 'postq-darwin-x64', 'postq-linux-arm64', 'postq-linux-x64', 'postq-win32-x64']
 

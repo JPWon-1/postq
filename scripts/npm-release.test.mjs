@@ -8,7 +8,7 @@ import test from 'node:test'
 import { MAIN, checkExecBits, chooseTag, compareVersions, publishArgs, tarModes, validatePacks } from './npm-release.mjs'
 
 test('scoped main package, unchanged platform names, and public publishing', () => {
-  assert.equal(MAIN, '@postq/postq')
+  assert.equal(MAIN, '@rocknzero/postq')
   const packs = [{ name: MAIN }, { name: 'postq-darwin-arm64' }]
   assert.doesNotThrow(() => validatePacks(packs))
   assert.throws(() => validatePacks([{ name: 'postq' }]), /예상하지 않은/)

@@ -123,6 +123,6 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $launcher = Join-Path (npm root -g) '@postq\postq\bin\postq.js'
+          $launcher = Join-Path (npm root -g) '@rocknzero\postq\bin\postq.js'
           ./scripts/win-ctrl-smoke.ps1 -Launcher $launcher -Port 39251 -DataDir "$env:RUNNER_TEMP\pq-ctrl-c" -Event CtrlC
           ./scripts/win-ctrl-smoke.ps1 -Launcher $launcher -Port 39252 -DataDir "$env:RUNNER_TEMP\pq-ctrl-break" -Event CtrlBreak

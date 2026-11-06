@@ -24,7 +24,7 @@
  *   --cli   npm 런처(node)를 `--no-open --port <빈 포트> --data-dir <임시>` 로 띄워 --wait 초 뒤 RSS·footprint 를 잰다
  *           (런처 node + 서버 실행 파일 각각과 합). 그다음 headless Chromium(Playwright) 탭 하나로 그 화면을 열고 --wait 초 뒤
  *           그 탭 렌더러 프로세스의 footprint·RSS 와 Chromium 전체 프로세스 RSS 합을 따로 적는다. 평소 쓰는 브라우저의 값과는 다를 수 있다.
- *   --npm-prefix  `npm install -g --prefix <prefix>` 로 깐 폴더 — lib/node_modules/@postq/postq 와 postq-<platform> 의 du 를 더한다.
+ *   --npm-prefix  `npm install -g --prefix <prefix>` 로 깐 폴더 — lib/node_modules/@rocknzero/postq 와 postq-<platform> 의 du 를 더한다.
  *   --running  이미 떠 있는 다른 앱을 읽기만 한다(켜거나 끄지 않는다). 1)~3) 과 같은 방법으로 프로세스를 골라 3초 간격 --runs 번 잰다.
  *
  * 포트 3000·3001·18765·18767 은 쓰지 않는다. 끄는 것은 이 스크립트가 띄운 PID 뿐이다.
@@ -309,7 +309,7 @@ async function measureCli(cli) {
 
 function npmSize(prefix) {
   const modules = join(resolve(prefix), 'lib', 'node_modules')
-  const names = readdirSync(modules).flatMap(n => n === '@postq' ? readdirSync(join(modules, n)).map(p => `@postq/${p}`) : n.startsWith('postq-') ? [n] : [])
+  const names = readdirSync(modules).flatMap(n => n === '@rocknzero' ? readdirSync(join(modules, n)).filter(p => p === 'postq').map(p => `@rocknzero/${p}`) : n.startsWith('postq-') ? [n] : [])
   const pkgs = Object.fromEntries(names.map(n => [n, du(join(modules, n))]))
   return { packages: pkgs, total: Object.values(pkgs).reduce((a, b) => a + b, 0) }
 }

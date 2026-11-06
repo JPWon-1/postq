@@ -1,6 +1,6 @@
 # postq vs Postman — 크기·메모리
 
-현재 npm 설치 명령은 `npm install -g @postq/postq`다. 아래 0.1.0 수치는 이름 변경 전 로컬 tarball에서 잰 역사적 기록이며, 플랫폼 패키지 이름은 그대로다.
+현재 npm 설치 명령은 `npm install -g @rocknzero/postq`다. 아래 0.1.0 수치는 이름 변경 전 로컬 tarball에서 잰 역사적 기록이며, 플랫폼 패키지 이름은 그대로다.
 
 [English below](#english)
 
@@ -111,7 +111,7 @@ postman-cli 1.84.0 (npm `postman-cli`, `@postman/pm-bin-macos-arm64`) · postq 0
 참고
 - 이 표는 UI 개편 전 빌드로 잰 값이다. UI 개편 뒤 같은 방법으로 다시 잰 npm 설치 크기는 5.7 MiB(5.67)다(위 절).
 - postq 의 npm 설치 크기는 로컬에서 만든 패키지 두 개(`scripts/package-release.mjs --main` → `npm pack`)를 임시 prefix 에 `npm install -g --prefix` 로 깔고
-  당시 `lib/node_modules/postq*` 의 du 를 더한 값이다(`node scripts/bench-postman.mjs --sizes-only`). 레지스트리에서 받은 것은 아니다. 현재 스크립트는 `@postq/postq`와 플랫폼 패키지 경로를 센다.
+  당시 `lib/node_modules/postq*` 의 du 를 더한 값이다(`node scripts/bench-postman.mjs --sizes-only`). 레지스트리에서 받은 것은 아니다. 현재 스크립트는 `@rocknzero/postq`와 플랫폼 패키지 경로를 센다.
   Homebrew 설치는 같은 릴리스 묶음을 풀어 놓는 것이라 크기가 비슷할 것으로 보지만, 이 표에는 재서 넣지 않았다.
 - Postman CLI 는 표의 값(`--postman-dir` 로 준 설치를 du) 외에, 이 Mac 에 `npm install -g postman-cli` 로 깔린 전역 설치를 du 로 재면 349 MiB 였다.
 - postq 의 실행 스크립트 45 MiB 는 대부분 Node.js 자체다. 같은 실행을 `curl -X POST .../api/folders/{id}/run` 으로 부르면 서버 쪽 7 MiB 만 남는다.
@@ -194,7 +194,7 @@ postq is a server (API + static UI + SQLite + scheduler + MCP), measured while r
 | Start → first response | 656 ms (`postman --version`) | 14 ms (server start → `/api/health`) |
 | Collection run wall time | 1,725 ms | 142 ms |
 
-The current npm install command is `npm install -g @postq/postq`. The 0.1.0 npm sizes above were measured from locally built tarballs before the launcher was renamed; they were not registry installs. The platform package names are unchanged.
+The current npm install command is `npm install -g @rocknzero/postq`. The 0.1.0 npm sizes above were measured from locally built tarballs before the launcher was renamed; they were not registry installs. The platform package names are unchanged.
 postq's npm size comes from installing the two locally built packages (`package-release.mjs --main` + `npm pack`)
 into a temporary prefix (`node scripts/bench-postman.mjs --sizes-only`).
 Homebrew install size was not measured for this table. This table predates the UI redesign; the npm install size re-measured after it is 5.7 MiB (5.67).

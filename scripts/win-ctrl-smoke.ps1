@@ -1,7 +1,7 @@
 # 윈도우에서 실제 콘솔 Ctrl+C / Ctrl+Break 로 postq 를 끝내 보고, 런처(node)·서버가 종료 코드 0 으로 끝나는지 본다.
 # .github/workflows/ci.yml 의 install-smoke(windows) 가 부른다.
 #
-#   pwsh -File scripts/win-ctrl-smoke.ps1 -Launcher <npm root -g>\@postq\postq\bin\postq.js -Port 39251 -DataDir <폴더> -Event CtrlC
+#   pwsh -File scripts/win-ctrl-smoke.ps1 -Launcher <npm root -g>\@rocknzero\postq\bin\postq.js -Port 39251 -DataDir <폴더> -Event CtrlC
 #
 # 방법: 런처를 새 콘솔(CREATE_NEW_CONSOLE, 창 숨김)로 띄운다 → /api/health 200 을 기다린다 →
 # 이 프로세스가 그 콘솔에 붙어(AttachConsole) GenerateConsoleCtrlEvent(이벤트, 0) 로 콘솔의 모든 프로세스(런처·서버)에

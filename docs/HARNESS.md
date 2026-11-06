@@ -18,7 +18,7 @@
 | CI Windows `win-ctrl-smoke` | Ctrl+C·Ctrl+Break 종료 코드 오류 | Windows CI에서 | `scripts/win-ctrl-smoke.ps1`, 해당 job 로그 |
 | CI 행렬 | Ubuntu/macOS/Windows 설치 및 5개 릴리스 대상 빌드 실패 | PR·main CI와 태그 릴리스 | `.github/workflows/{ci,release}.yml`의 실패한 OS·대상 job |
 
-`e2e-safe`는 원본 DB의 일관된 사본을 임시 위치에 만들고, 테스트 뒤 원본 지문을 비교한다. 데이터가 없어도 빈 테스트 DB로 시작한다. 회사 DB를 `--db`에 지정하지 않는다. `install-smoke`는 CI에서 `@postq/postq`와 이름을 유지한 플랫폼 패키지의 tarball을 `npm install -g`로 설치해 `postq --version`, `/api/health`, 화면, 종료를 확인한다. Windows 콘솔 이벤트 검사는 Windows 러너에서만 실행할 수 있다.
+`e2e-safe`는 원본 DB의 일관된 사본을 임시 위치에 만들고, 테스트 뒤 원본 지문을 비교한다. 데이터가 없어도 빈 테스트 DB로 시작한다. 회사 DB를 `--db`에 지정하지 않는다. `install-smoke`는 CI에서 `@rocknzero/postq`와 이름을 유지한 플랫폼 패키지의 tarball을 `npm install -g`로 설치해 `postq --version`, `/api/health`, 화면, 종료를 확인한다. Windows 콘솔 이벤트 검사는 Windows 러너에서만 실행할 수 있다.
 
 ## 변경 종류별 최소 검증 체크리스트
 

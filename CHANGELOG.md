@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- Renamed the npm launcher package from `postq` to `@postq/postq`; the installed command remains `postq`.
+- Renamed the npm launcher package from `postq` to `@rocknzero/postq`; the installed command remains `postq`.
 
 ### Fixed
 

@@ -1,4 +1,4 @@
-//! 사용자용 실행 파일 `postq` — `npm install -g @postq/postq`·`brew install` 로 깔린 명령이 여기로 온다.
+//! 사용자용 실행 파일 `postq` — `npm install -g @rocknzero/postq`·`brew install` 로 깔린 명령이 여기로 온다.
 //!
 //! 도커·E2E·개발 서버가 쓰는 `postq-server`(설정은 전부 환경 변수, [`crate::Config::from_env`])와 달리
 //! 사람이 터미널에서 치는 명령이다. 그래서 기본값을 사람 쪽에 맞춘다:
